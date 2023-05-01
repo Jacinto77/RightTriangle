@@ -23,11 +23,6 @@ class Triangle:
         self.angle_b_rad = self.convert_deg_to_rad(float(self.angle_b))
         self.angle_c_rad = self.convert_deg_to_rad(float(self.angle_c))
 
-        self.list_angles = []
-        self.list_sides = []
-        self.set_list_angles()
-        self.set_list_sides()
-
         self.is_known_adjacent = False
         self.is_known_opposite = False
         self.is_known_hypotenuse = False
@@ -39,27 +34,32 @@ class Triangle:
         self.num_known_sides = 0
         self.num_known_angles = 0
 
+        self.list_angles = []
+        self.list_sides = []
+        self.assign_list_angles()
+        self.assign_list_sides()
+
         self.set_known_angles()
 
         if self.num_known_angles == 2:
-            if self.is_known_angle_a:
+            if not self.is_known_angle_a:
                 self.angle_a = self.calculate_missing_angle()
-            elif self.is_known_angle_b:
+            elif not self.is_known_angle_b:
                 self.angle_b = self.calculate_missing_angle()
-            elif self.is_known_angle_c:
+            elif not self.is_known_angle_c:
                 self.angle_c = self.calculate_missing_angle()
             self.set_known_angles()
-            self.set_list_angles()
+            self.assign_list_angles()
 
         self.set_known_sides()
 
-        if self.num_known_sides > 1:
+        if self.num_known_sides == 2:
             if int(self.side_hypotenuse) == 0:
                 self.calculate_hypotenuse()
             else:
                 self.calculate_missing_side()
             self.set_known_sides()
-            self.set_list_sides()
+            self.assign_list_sides()
 
     def set_known_sides(self):
         if self.side_adjacent != 0:
@@ -83,10 +83,10 @@ class Triangle:
             self.is_known_angle_c = True
             self.num_known_angles += 1
 
-    def set_list_angles(self):
+    def assign_list_angles(self):
         self.list_angles = [self.angle_a, self.angle_b, self.angle_c]
 
-    def set_list_sides(self):
+    def assign_list_sides(self):
         self.list_sides = [self.side_adjacent, self.side_opposite, self.side_hypotenuse]
 
     def print_sides(self):
